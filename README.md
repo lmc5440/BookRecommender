@@ -120,10 +120,10 @@ There are multiple ways to integrate both methods:
 
 # Contributors
 
-- **Name**: Lauren Christiansen
-- **Name**: Seryoon Yun
-- **Name**: Laetitia Germe Jones
-- **Name**: Tom Tsai
+- Lauren Christiansen
+- Seryoon Yun
+- Laetitia Germe Jones
+- Tom Tsai
 
 
 # Acknowledgments
