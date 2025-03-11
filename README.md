@@ -1,95 +1,121 @@
-# Book Recommender System
+# **Book Recommender: A Machine Learning Model**
 
-## Data
+## **Project Overview**
+This project aims to build a **book recommendation system** that suggests books based on user-inputted book titles and review text. By leveraging **natural language processing (NLP) techniques and sentiment analysis**, the model identifies books that match the sentiment and themes of a user's review. 
 
-This project uses two datasets:
+The recommendation system is built using **Amazon book reviews** and **GoodReads metadata** to provide relevant book suggestions.
 
-- **Goodreads Dataset**: Contains book details such as ISBN, description, genres, author, and title.
-- **Amazon Reviews Dataset**: Contains review scores and review texts for books.
-
-The datasets are stored in CSV files inside the `Resources` directory:
-- `Resources/goodreads_dataset.csv`
-- `Resources/book_reviews.csv`
-
-The code selects only the necessary columns:
-- From the Goodreads dataset: `isbn`, `description`, `genres`, `author`, and `title`
-- From the Reviews dataset: `Id`, `review/score`, and `review/text`
-
-The datasets are then merged using the Goodreads ISBN and the Amazon review `Id`. After merging, the redundant `Id` column is dropped.
+## **Team Members**
+- **Thomas Tsai**
+- **Ser Yoon**
+- **Laetitia Germe Jones**
+- **Lauren Christiansen** (Project Lead)
 
 ---
 
-## Data Preparation & Processing
+## **How the Model Works**
+1. **Data Collection**: We merge datasets from **Amazon Reviews** and **GoodReads** to obtain book titles, genres, descriptions, and user ratings.
+2. **Text Preprocessing**: We clean and tokenize book reviews, descriptions, and genres for better vectorization.
+3. **Sentiment Analysis**: Reviews are analyzed using **VADER sentiment analysis** to understand the user’s emotions.
+4. **Vectorization**: Text is converted into numerical form using **TF-IDF Vectorization** to find similarity between books.
+5. **Cosine Similarity**: Based on user input, the system identifies books with similar themes, genres, and sentiments.
+6. **Final Recommendation**: The model filters books based on sentiment and similarity scores and returns the top **5 book recommendations**.
 
-After merging the datasets, the following processing steps are performed:
+# **Data Preparation**
 
-1. **Cleaning List-Like Strings**  
-   Some columns (like `genres` and `author`) are stored as strings that look like lists (e.g., `['Fiction', 'Mystery']`). A custom function is used to convert these into proper comma-separated strings.
+## **Datasets Used**
+We utilized two primary datasets for this project:
 
-2. **Combining Text Fields**  
-   A new column, `book_info`, is created by concatenating the review text, book description, and genres. This combined text field serves as the basis for further text processing and recommendation.
+- **[Amazon Books Reviews](https://www.kaggle.com/datasets/mohamedbakhet/amazon-books-reviews)**
+- **[GoodReads Books Metadata](https://www.kaggle.com/datasets/leireher/goodreads-books-with-description-and-genre?select=book_dataset.csv)**
 
-3. **Text Cleaning**  
-   A cleaning function (`clean_func`) is defined to:
-   - Convert text to lowercase
-   - Remove punctuation and non-letter characters
-   - Tokenize the text and remove common English stopwords (using NLTK’s stopwords)
-
-   This function is applied to the `book_info` column so that the text is in a uniform format for analysis.
-
-4. **Sentiment Analysis Setup**  
-   The VADER sentiment analyzer from NLTK is initialized and a helper function (`analyze_review`) is created. This function computes the compound sentiment score of a review, which is later used to influence the recommendation process.
+These datasets contain **book descriptions, reviews, authors, genres, and ratings**, which help generate meaningful recommendations.
 
 ---
 
-## Recommendation Logic & Modeling
+## **Data Cleaning Process**
+To ensure high-quality and relevant data for our recommendation model, we performed the following cleaning steps:
 
-The core recommendation function (`recommend_book`) operates as follows:
+### **1. Drop Unnecessary Columns**
+We removed columns that do not contribute directly to book recommendations:
 
-1. **Input Handling**  
-   The function accepts two inputs from the user:
-   - A book title (for context)
-   - A review text
+- `track_id`
+- `playlist_name`
+- `playlist_id`
+- `track_artist`
+- `track_album_release_date`
+- `track_album_name`
+- `playlist_genre`
+- `playlist_subgenre`
 
-2. **Review Cleaning and Sentiment Analysis**  
-   The user’s review is cleaned using the same text cleaning function applied to the dataset. Its sentiment is then analyzed with VADER. Based on the compound sentiment score:
-   - If the sentiment is positive (score ≥ 0), the system filters for books with high review scores (≥ 4).
-   - Otherwise, it filters for books with lower review scores (< 4).
+### **2. Remove Duplicates**
+- Ensured unique book entries by removing duplicate records.
 
-3. **Vectorization and Similarity Calculation**  
-   A TF-IDF vectorizer is used to convert the filtered books’ `book_info` text into numerical vectors. The same vectorizer is used to transform the cleaned user review into a vector. Cosine similarity is then computed between the user review vector and the vectors of the filtered books.
+### **3. Convert List-Based Text to Readable Format**
+- Reformatted **genres** and **author** fields to be properly structured as strings.
 
-4. **Generating Recommendations**  
-   The system identifies the top 5 books with the highest similarity scores. It then creates a list of recommendations showing each book’s title and author. Duplicate titles are avoided in the final recommendations.
+### **4. Apply Text Cleaning**
+- Converted text to **lowercase** for uniformity.
+- Removed **punctuation** and **stopwords** to reduce noise in the dataset.
+- Applied **tokenization** to split text into meaningful words for better vectorization.
+
+### **5. Merge Books and Reviews Datasets**
+- Combined metadata and review scores into a single structured dataset.
 
 ---
 
-## User Interface
+# **Model Methodology**
 
-An interactive web interface is built using Gradio. The interface presents the user with:
-- A textbox to enter the book title.
-- A textbox to enter their review.
+## **1. Text Preprocessing**
+To improve model performance, we applied various text preprocessing techniques:
 
-After submitting their input, the interface displays the recommended books based on the processed review and similarity calculations.
+- **Stopword Removal**: Eliminates common words to enhance meaningful keyword extraction.
+- **Tokenization**: Splits text into individual words for better feature extraction.
+- **TF-IDF Vectorization**: Converts text into a numerical format to calculate similarities between books.
 
-Below is an excerpt of the Gradio interface code:
+## **2. Sentiment Analysis**
+We integrated sentiment analysis to refine recommendations:
 
-```python
-instruction = """
-    <h1>Book Recommendations</h1>
-    <p>What book did you read recently?</p>
-    <p>Enter the title and write a brief review of the book.</p>
-    <p>Click 'Submit' to get new book recommendations!</p>
-    <br/>
-"""
+- **VADER Sentiment Intensity Analyzer**: Determines the **positivity or negativity** of user reviews.
+- **Filtering Books Based on Sentiment**:
+  - **Positive Reviews (≥4 stars)** → Suggest books with similarly high ratings.
+  - **Negative Reviews (<4 stars)** → Suggest books that received lower ratings with similar themes.
 
-gr_interface = gr.Interface(
-    fn=recommend_book,
-    inputs=[
-        gr.Textbox(label="Title"),
-        gr.Textbox(label="Your Review")
-    ],
-    outputs=gr.Textbox(label="Recommended Books"),
-    description=instruction
-)
-gr_interface.launch(share=True)
+## **3. Book Recommendation Algorithm**
+The core recommendation algorithm follows these steps:
+
+1. **Vectorize user input review** using **TF-IDF Vectorization**.
+2. **Compute similarity scores** between books using **Cosine Similarity**.
+3. **Retrieve the Top 5 books** with the highest similarity to the user's input.
+4. **Ensure diverse recommendations** by avoiding duplicate book suggestions.
+
+---
+
+# **Challenges Encountered**
+While building the recommendation system, we encountered the following challenges:
+
+- **False Positives & False Negatives**: Some books were recommended due to misleading sentiment analysis.
+- **Data Imbalance**: More reviews exist for popular books, making niche book recommendations more difficult.
+- **Text Complexity**: Some book descriptions were too short, impacting the accuracy of similarity calculations.
+
+---
+
+# **Key Findings & Results**
+
+## **1. Feature Importance**
+- **Review text** and **book descriptions** were the most significant factors in determining book recommendations.
+- **Sentiment Analysis** played a crucial role in filtering appropriate book suggestions based on the user's mood.
+
+## **2. Model Evaluation**
+- The **TF-IDF + Cosine Similarity model** provided **strong recommendations**, successfully suggesting highly relevant books.
+- The model was validated by testing it with real-world book reviews and manually cross-checking the recommendations.
+
+---
+
+# **Future Improvements**
+To further enhance the accuracy and effectiveness of the recommendation system, we plan to implement:
+
+- **Collaborative Filtering**: Use **user behavior data** to provide more personalized recommendations.
+- **Improved Sentiment Analysis**: Fine-tune sentiment classification for better review understanding.
+- **User Profiles & Personalization**: Track user preferences over time to refine book suggestions based on reading habits.
+
