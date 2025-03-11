@@ -32,24 +32,18 @@ These datasets contain **book descriptions, reviews, authors, genres, and rating
 ### **Data Cleaning Process**  
 To ensure **high-quality and relevant data**, we performed the following preprocessing steps:  
 
-#### **1. Drop Unnecessary Columns**  
-Removed columns that do not contribute directly to book recommendations:  
-- `track_id`, `playlist_name`, `playlist_id`, `track_artist`,  
-  `track_album_release_date`, `track_album_name`,  
-  `playlist_genre`, `playlist_subgenre`  
-
-#### **2. Remove Duplicates**  
+#### **1. Remove Duplicates**  
 - Ensured **unique book entries** by eliminating duplicate records.  
 
-#### **3. Convert List-Based Text to Readable Format**  
+#### **2. Convert List-Based Text to Readable Format**  
 - Reformatted **genres** and **author** fields to be properly structured as strings.  
 
-#### **4. Apply Text Cleaning**  
+#### **3. Apply Text Cleaning**  
 - **Converted text to lowercase** for uniformity.  
 - **Removed punctuation** and **stopwords** to reduce noise.  
 - **Applied tokenization** to split text into meaningful words for better vectorization.  
 
-#### **5. Merge Books and Reviews Datasets**  
+#### **4. Merge Books and Reviews Datasets**  
 - Combined **metadata and review scores** into a single structured dataset.  
 
 ---
