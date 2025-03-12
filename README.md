@@ -63,7 +63,7 @@ These datasets contain book descriptions, reviews, authors, genres, and ratings,
 - **Loading Data**: The notebook uses `pandas.read_csv()` to load the datasets.
 - **Handling Missing Values**: It identifies and removes missing or null values to ensure data consistency.
 - **Text Processing**: 
-   *`nltk` library is used for tokenization, stopword removal, and stemming to refine text data.  
+   * `nltk` library is used for tokenization, stopword removal, and stemming to refine text data.  
    * `TF-IDF Vectorization`converts book descriptions into numerical vectors.  
    * `Stopword Removal & Tokenization`improves similarity matching.
 
@@ -97,8 +97,8 @@ The Switching Hybrid Approach implemented in this notebook alternates between co
 
 How it works:
    1. The user enters a book title and review.
-   2. Sentiment Analysis determines the tone of the review using VADER:
-   
+   2. Sentiment Analysis determines the tone of the review using `VADER`:
+
       <img src="Resources/Sentiment_analysis.png" alt="Sentiment_analysis.pngInterface 1" width="45%">
 
    3. Filtering Based on Sentiment:
@@ -108,7 +108,7 @@ How it works:
       
        <img src="Resources/Filtering_based_sentiment.png" alt="Filtering_based_sentiment.pngInterface 1" width="45%">  
    
-   4. Content-Based Filtering: After filtering, TF-IDF Vectorization + Cosine Similarity is applied to recommend books most textually similar to the user’s review.
+   4. Content-Based Filtering: After filtering,`TF-IDF Vectorization` + `Cosine Similarity` is applied to recommend books most textually similar to the user’s review.
 
 ## 📊 Model Evaluation & Key Findings
 
@@ -128,7 +128,7 @@ How it works:
 
 ## 🌐 Interactive Visualization with Gradio
 
-This book recommender system is deployed using Gradio, allowing users to input a book title and review to receive personalized recommendations in a user-friendly web interface.
+This book recommender system is deployed using `Gradio`, allowing users to input a book title and review to receive personalized recommendations in a user-friendly web interface.
 
 ### User input and recommendations and alternative recommendations on another submission:
 <p align="center">
