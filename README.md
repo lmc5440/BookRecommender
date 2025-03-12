@@ -132,8 +132,8 @@ This book recommender system is deployed using Gradio, allowing users to input a
 
 ### User input and recommendations and alternative recommendations on another submission:
 <p align="center">
-  <img src="Resources/Gradio 1.png" alt="Gradio Interface 1" width="45%">
-  <img src="Resources/Gradio 2.png" alt="Gradio Interface 2" width="45%">
+  <img src="Resources/Gradio 1.png" alt="Gradio Interface 1" width="60%">
+  <img src="Resources/Gradio 2.png" alt="Gradio Interface 2" width="60%">
 </p>
 
 ### The interactive interface allows users to:
