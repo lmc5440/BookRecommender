@@ -92,6 +92,11 @@ These datasets contain book descriptions, reviews, authors, genres, and ratings,
 * Constructs a user-item rating matrix.
 * Applies Singular Value Decomposition (SVD) to predict user preferences.
 
+#### K-Nearest Neighbors Model
+
+* Create a KNN model and fit the vectorized book data.
+* Find the k most similar books to recommend based on the user’s input.
+
 #### Hybrid Recommendation Approach
 The Switching Hybrid Approach implemented in this notebook alternates between content-based filtering and sentiment-based filtering based on user input. The system dynamically selects either content-based filtering or sentiment-based filtering, depending on user input. It does not blend multiple methods simultaneously but picks the most suitable approach.
 
@@ -109,6 +114,8 @@ How it works:
        <img src="Resources/Filtering_based_sentiment.png" alt="Filtering_based_sentiment.pngInterface 1" width="45%">  
    
    4. Content-Based Filtering: After filtering,`TF-IDF Vectorization` + `Cosine Similarity` is applied to recommend books most textually similar to the user’s review.
+   
+   5. KNN Algorithm: As a second approach, `k-nearest neighbors` model is built to find most similar books based on the user's review.
 
 ## 📊 Model Evaluation & Key Findings
 
